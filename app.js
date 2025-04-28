@@ -18,6 +18,7 @@ const PORT = 5000
 
 // MIDDLEWARE
 app.use("/static", express.static(path.join(__dirname, "static")))
+app.use('/images', express.static(path.join(__dirname, "images")));
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
