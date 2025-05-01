@@ -104,8 +104,8 @@ app.post("/login", (req, res) => {
 })
 
 // OTHER FILES' REQUESTS (already handled by static middleware, but this is okay too) // GO FUCK URSELF CHATGPT, MY CODE, MY RULES U MOTHERFUCKER ASKLDHJASLKDHJ
-app.get("/static/styles.css", (req, res) => {
-    res.sendFile(path.join(__dirname, "/static/styles.css"))
+app.get("/static/style.css", (req, res) => {
+    res.sendFile(path.join(__dirname, "/static/style.css"))
 })
 
 app.listen(PORT, () => {
