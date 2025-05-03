@@ -1,0 +1,36 @@
+.main-container {
+    max-width: 900px;    /* or 900px, 1000px, depending on the site */
+    width: 100%;          /* allows it to shrink on smaller screens */
+    margin: 0 auto;       /* centers the block horizontally */
+    padding: 20px;        /* space inside for comfortable reading */
+}
+
+h1 {
+    font-size: 4rem;
+}
+
+p {
+    font-size: 1.5rem;
+    text-align: justify;
+}
+
+p.paragraph {
+    text-indent: 2em;
+}
+
+p.caption {
+    color: #333;
+    font-size: 1rem;
+}
+
+img {
+    width: 100%;
+    margin-bottom: 5px;
+    padding: 0px;
+}
+
+hr {
+    margin-bottom: 20px;
+    margin-top: 5px;
+    color: rgba(0, 0, 0, 0.2);
+}

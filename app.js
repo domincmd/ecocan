@@ -33,6 +33,10 @@ app.get("/error", (req, res) => {
     res.sendFile(path.join(__dirname, "html/error.html"))
 })
 
+app.get("/quemsomos", (req, res) => {
+    res.sendFile(path.join(__dirname, "/html/info/quemsomos.html"))
+})
+
 // POST REQUESTS
 app.post("/signup", (req, res) => {
     const { email, password, cpassword } = req.body
@@ -106,6 +110,22 @@ app.post("/login", (req, res) => {
 // OTHER FILES' REQUESTS (already handled by static middleware, but this is okay too) // GO FUCK URSELF CHATGPT, MY CODE, MY RULES U MOTHERFUCKER ASKLDHJASLKDHJ
 app.get("/static/style.css", (req, res) => {
     res.sendFile(path.join(__dirname, "/static/style.css"))
+})
+
+app.get("/static/home.css", (req, res) => {
+    res.sendFile(path.join(__dirname, "/static/home.css"))
+})
+
+app.get("/static/index.css", (req, res) => {
+    res.sendFile(path.join(__dirname, "/static/index.css"))
+})
+
+app.get("/static/error.css", (req, res) => {
+    res.sendFile(path.join(__dirname, "/static/error.css"))
+})
+
+app.get("/static/info.css", (req, res) => {
+    res.sendFile(path.join(__dirname, "/static/info.css"))
 })
 
 app.listen(PORT, () => {

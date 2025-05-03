@@ -83,22 +83,7 @@ body {
     transform: translate(-50%, 0%);
 }
 
-.main-container {
-    width: 100vw;
-    height: 100vh;
-}
 
-.outer-container-index {
-    display: flex;
-    width: max(50%, 700px);
-    justify-content: space-around;
-    height: auto;
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    position: relative;
-}
 
 .outer-container-home {
     width: 70%;
@@ -107,20 +92,6 @@ body {
     top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
-
-.grid-display-1 {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 100%;
-    height: 50%;
-}
-
-.grid-display-2 {
-    display: grid;
-    grid-template-columns: 70% 30%;
-    grid-template-rows: 100%;
-    height: 50%;
 }
 
 .container {
@@ -132,42 +103,6 @@ body {
     border: 2px solid var(--background-darker);
 }
 
-.container-home {
-    height: calc(100% - 40px);
-    background-color: var(--background);
-    border: 4px solid var(--background-darker);
-    border-radius: 20px;
-    box-sizing: border-box;
-    margin: 20px;
-    padding: 20px 30px;
-    position: relative;
-}
-
-.container-home > p {
-    font-size: 1.2rem;
-}
-
-.container-home .big-btn-home {
-    width: calc(100% - 60px);
-    background-color: var(--accent-light);
-    border: 4px solid var(--accent);
-    border-radius: 15px;
-    color: #333;
-    font-size: 1.7rem;
-    padding: 5px;
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer;
-    position: absolute;
-    bottom: 0%;
-    left: 50%;
-    transform: translate(-50%, -20px);
-    transition: 0.5s ease;
-}
-
-.container-home .big-btn-home:hover {
-   border-radius: 25vmin; 
-}
 
 div .center {
     display: block;
@@ -181,51 +116,6 @@ div .center {
     overflow-wrap: break-word;
 }
 
-.container-home.user-card {
-    position: relative;
-}
-
-.container-home.user-card > div {
-    height: 35px;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    gap: 10px;
-}
-
-.container-home.user-card > div > p {
-    font-size: 1.2rem;
-}
-
-.container-home.user-card > div > img {
-    height: 100%;
-}
-
-
-.error-container {
-    width: 400px;
-    height: auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.error-p {
-    font-size: 1.5rem;
-}
-
-.error-title {
-    text-align: center;
-    text-decoration: underline;
-}
-
-
-
-.error-container > h3 {
-    text-decoration: underline;
-    font-weight: bold;
-}
 
 .subtitle {
     text-align: center;
@@ -266,40 +156,3 @@ div .center {
     outline: none;
 }
 
-.small-debug-btn {
-    background-color: var(--accent-light);
-    border: 3px solid var(--accent);
-    border-radius: 10px;
-    cursor: pointer;
-    padding: 7px;
-    margin: 10px 0px;
-    font-size: 1.1rem;
-    transition: 0.3s ease;
-    position: absolute;
-    top: 0px;
-    right: 10px;
-}
-
-.small-debug-btn:hover {
-    border-radius: 25vmin;
-}
-
-.big-btn-user-card {
-    width: calc(100% - 20px);
-    background-color: var(--accent-light);
-    border: 4px solid var(--accent);
-    border-radius: 15px;
-    color: #333;
-    font-size: 1.7rem;
-    padding: 5px;
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.5s ease;
-    margin: 20px 0px;
-    transition: 0.3s ease;
-}
-
-.big-btn-user-card:hover {
-    border-radius: 25vmin;
-}

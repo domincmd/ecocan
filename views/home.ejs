@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Início</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/home.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="logo">
+        <div class="logo" onclick="window.location.href = '/'">
             <img src="/images/EcoCanFULL.png" alt="">
         </div>
         <div class="links">
-            <span>Quem Somos</span>
+            <span onclick="window.location.href='/quemsomos'">Quem Somos</span>
             <span>Como Operamos</span>
             <span>Benefícios</span>
         </div>
@@ -36,18 +37,45 @@
                 </div>
             </div>
             <div class="grid-display-2">
-                <div class="container-home">
-                    <p>test</p>
+                <div class="container-home fun-fact-container">
+                    <div class="fun-fact-left">
+                        <h1>Você Sabia?</h2>
+                        <p>Se você está vendo isso, ocorreu um erro. Era para aparecer uma curiosidade sobre reciclagem aqui :P</p>
+                    </div>
+                    <div class="fun-fact-right">
+                        <img src="/images/Recycling.png" alt="">
+                    </div>
                 </div>
                 <div class="container-home user-card">
                     <img src="/images/User.png" alt="" class="center">
                     <h2 class="text-center"><%= email %></h2>
                     <div><img src="/images/EcoPoints.png" alt=""><p><%= points %></p></div>
                     <button class="small-debug-btn" onclick="alert('<%= codeInt %>')">D</button>
-                    <div class="big-btn-user-card ">Sair</div>
+                    <button class="big-btn-user-card">Sair</div>
                 </div>
             </div> 
         </div>
     </div>
 </body>
+<script>
+    const curiosidades = [
+        "Reciclar uma única latinha de alumínio economiza energia suficiente para manter uma TV ligada por até 3 horas e uma lâmpada de 100 watts acesa por até 20 horas, mostrando o enorme impacto energético dessa simples ação.",
+        "O alumínio é um dos poucos materiais que pode ser reciclado infinitamente sem perder suas propriedades físicas e mecânicas, garantindo que uma latinha reciclada possa se tornar outra latinha de igual qualidade repetidas vezes.",
+        "O Brasil tem a maior taxa de reciclagem de latas de alumínio do mundo, superando 98% de reaproveitamento, graças a uma cadeia eficiente que envolve cooperativas, catadores e a indústria do alumínio.",
+        "Produzir alumínio reciclado consome apenas 5% da energia necessária para produzir alumínio primário extraído da bauxita, além de evitar os impactos ambientais da mineração, como desmatamento e contaminação hídrica.",
+        "O ciclo de reciclagem do alumínio é extremamente rápido: uma latinha descartada e reciclada pode voltar às prateleiras em apenas 60 dias, reduzindo drasticamente a necessidade de novos recursos naturais.",
+        "Cada tonelada de alumínio reciclado evita a emissão de aproximadamente 9 toneladas de CO₂ na atmosfera, contribuindo diretamente para o combate às mudanças climáticas e à redução do efeito estufa.",
+        "A cadeia de reciclagem de latinhas gera renda para mais de 800 mil catadores no Brasil, que desempenham um papel fundamental na coleta e triagem dos materiais recicláveis, fortalecendo a economia circular.",
+        "Se todas as latinhas consumidas no mundo fossem recicladas, seria possível reduzir a necessidade de mineração em milhões de toneladas de bauxita por ano, preservando ecossistemas e biodiversidade sensíveis.",
+        "A reciclagem de alumínio ajuda a reduzir a pressão sobre aterros sanitários, pois uma latinha que não é reciclada pode levar até 200 anos para se decompor no meio ambiente, poluindo solos e rios.",
+        "As latinhas de alumínio recicladas são usadas não só para fazer novas embalagens, mas também em setores como construção civil, indústria automotiva e produção de cabos elétricos, mostrando sua versatilidade.",
+        "O mercado brasileiro de reciclagem de alumínio movimenta bilhões de reais por ano, sendo um dos segmentos mais lucrativos e sustentáveis da indústria de reciclagem nacional.",
+        "O alumínio foi descoberto apenas no século XIX e, até meados daquele século, era considerado mais precioso que o ouro; hoje, graças à reciclagem, ele é acessível e onipresente em embalagens e produtos.",
+        "Cada brasileiro consome, em média, cerca de 17 kg de alumínio por ano, e a reciclagem permite que essa demanda seja atendida com menos impacto ambiental e menor consumo de energia."
+    ];
+
+    const curiosityP = document.querySelector(".fun-fact-left").querySelector("p")
+
+    curiosityP.textContent = curiosidades[Math.round(Math.random()*(curiosidades.length-1))]
+</script>
 </html>

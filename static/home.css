@@ -1,0 +1,135 @@
+
+.grid-display-1 {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 100%;
+    height: 50%;
+}
+
+.grid-display-2 {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-template-rows: 100%;
+    height: 50%;
+}
+
+.container-home {
+    height: calc(100% - 40px);
+    background-color: var(--background);
+    border: 4px solid var(--background-darker);
+    border-radius: 20px;
+    box-sizing: border-box;
+    margin: 20px;
+    padding: 20px 30px;
+    position: relative;
+}
+
+.container-home > p {
+    font-size: 1.2rem;
+}
+
+.container-home .big-btn-home {
+    width: calc(100% - 60px);
+    background-color: var(--accent-light);
+    border: 4px solid var(--accent);
+    border-radius: 15px;
+    color: #333;
+    font-size: 1.7rem;
+    padding: 5px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translate(-50%, -20px);
+    transition: 0.5s ease;
+}
+
+.container-home .big-btn-home:hover {
+   border-radius: 25vmin; 
+}
+
+.container-home.user-card {
+    position: relative;
+}
+
+.container-home.user-card > div {
+    height: 35px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 10px;
+}
+
+.container-home.user-card > div > p {
+    font-size: 1.2rem;
+}
+
+.container-home.user-card > div > img {
+    height: 100%;
+}
+
+.small-debug-btn {
+    background-color: var(--accent-light);
+    border: 3px solid var(--accent);
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 7px;
+    margin: 10px 0px;
+    font-size: 1.1rem;
+    transition: 0.3s ease;
+    position: absolute;
+    top: 0px;
+    right: 10px;
+}
+
+.small-debug-btn:hover {
+    border-radius: 25vmin;
+}
+
+
+.big-btn-user-card {
+    width: calc(100%);
+    background-color: var(--accent-light);
+    border: 4px solid var(--accent);
+    border-radius: 15px;
+    color: #333;
+    font-size: 1.7rem;
+    padding: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.5s ease;
+    margin: 20px 0px;
+}
+
+.big-btn-user-card:hover {
+    border-radius: 25vmin;
+}
+
+.container-home.fun-fact-container {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    grid-template-rows: 100%;
+}
+
+.container-home.fun-fact-container .fun-fact-left {
+    width: 100%;
+    height: 100%;
+    text-align: justify;
+}
+
+.container-home.fun-fact-container .fun-fact-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-home.fun-fact-container .fun-fact-right > img {
+    height: 90%;
+    transform: translateX(20px); /*nullify margin to give illusion that it is centered*/
+}
+
+.container-home.fun-fact-container p {
+    font-size: 1.3rem;
+}
