@@ -15,6 +15,7 @@ db.defaults({ users: [], tokens: [] }).write()
 
 const app = express()
 const PORT = 5000
+const adminPassword = "eco123" //NEEDS TO BE SAFER AFTERWARDS
 
 // MIDDLEWARE
 app.use("/static", express.static(path.join(__dirname, "static")))
@@ -35,6 +36,10 @@ app.get("/error", (req, res) => {
 
 app.get("/quemsomos", (req, res) => {
     res.sendFile(path.join(__dirname, "/html/info/quemsomos.html"))
+})
+
+app.get("/backdoor", (req, res) => {
+    res.sendFile(path.join(__dirname, "/html/admin/backdoor.html"))
 })
 
 // POST REQUESTS
@@ -64,21 +69,18 @@ app.post("/signup", (req, res) => {
 
 app.post("/login", (req, res) => {
     const { email, password } = req.body
-
     const emailExists = db.get("users").find({email}).value()
 
     if (emailExists) {
         const correctPassword = emailExists.password
         const points = emailExists.points
 
-        if (password === correctPassword) {
-                        
+        if (password === correctPassword) {  
             let code = db.get("tokens")
             .find(obj => Object.keys(obj).includes(email))
             .value();
 
             let codeInt;
-
             console.log(code)
 
             if (code) { //if there is a code, remove it
@@ -88,24 +90,31 @@ app.post("/login", (req, res) => {
             }
 
             //add a code
-
             codeInt = Math.round(Math.random() * 100000000)
             db.get("tokens").push({[email]: codeInt}).write() 
 
 
             res.render('home', { email, points, codeInt })
         }else{
-            const message = encodeURIComponent("Incorrect Password")
+            const message = encodeURIComponent("Senha Incorreta")
             res.redirect(`/error?code=${401}&message=${message}`)
         }
     }else{
-        const message = encodeURIComponent("Email not registered")
+        const message = encodeURIComponent("Email Não Registrado")
         res.redirect(`/error?code=${401}&message=${message}`)
     }
-
-    
-
 })
+
+app.post("/backdoor", (req, res) => {
+    const password = req.body.password
+
+    if (password === adminPassword) {
+        res.sendFile(path.join(__dirname, "/html/admin/dashboard.html"))
+    }else{
+        res.redirect("/error?code=401&message="+encodeURIComponent("Senha Incorreta"))
+    }
+})
+
 
 // OTHER FILES' REQUESTS (already handled by static middleware, but this is okay too) // GO FUCK URSELF CHATGPT, MY CODE, MY RULES U MOTHERFUCKER ASKLDHJASLKDHJ
 app.get("/static/style.css", (req, res) => {

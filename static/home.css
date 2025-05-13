@@ -44,6 +44,10 @@
     left: 50%;
     transform: translate(-50%, -20px);
     transition: 0.5s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
 }
 
 .container-home .big-btn-home:hover {
@@ -105,6 +109,14 @@
 
 .big-btn-user-card:hover {
     border-radius: 25vmin;
+}
+
+.container-home {
+    text-align: justify;
+}
+
+.container-home p {
+    font-size: 1.3rem;
 }
 
 .container-home.fun-fact-container {
