@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erro</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="general-container">
+        <div class="error-container container">
+            <h3>Ocorreu um erro :(</h3>
+            <p>Código: <span class="code"></span></p>
+            <p>Mensagem: <span class="message"></span></p>
+            <button class="back-btn" onclick="window.location.href = '/'">Voltar</button>
+        </div>
+    </div>
+</body>
+<script> 
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const message = params.get("message");
+    
+    
+    document.querySelector(".code").innerHTML = code
+    document.querySelector(".message").innerHTML = message
+</script>
+</html>
