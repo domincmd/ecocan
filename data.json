@@ -1,0 +1,23 @@
+{
+  "users": [
+    {
+      "email": "felipe@gmail.com",
+      "password": "1230",
+      "points": 90
+    },
+    {
+      "email": "fe@gmail.com",
+      "password": "1234",
+      "points": 0
+    }
+  ],
+  "tokens": [
+    {
+      "fe@gmail.com": 17345037
+    },
+    {
+      "felipe@gmail.com": 5290666
+    }
+  ],
+  "rcodes": []
+}

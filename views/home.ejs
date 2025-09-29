@@ -25,15 +25,15 @@
         <div class="outer-container-home">
             <div class="grid-display-1">
                 <div class="container-home half-container-home">
-                    <h1>Escanear Código</h1>
-                    <p>Utilize essa opção para escanear o código mostrado na lixeira após a reciclagem. Com isso, acumule <u>EcoPoints</u>, que posteriormente podem ser trocados por recompensas!</p>
-                    <button class="big-btn-home"><img src="/images/qrcode.png" class="svg" alt="">Escanear</button> <!--adicionar svg dps-->
+                    <h1>Reivindicar Pontos</h1>
+                    <p>Utilize essa opção para receber seus <u>EcoPoints</u> após a reciclagem. Para isso, escreva o código mostrado pela lixeira.</p>
+                    <button class="big-btn-home" onclick="window.location.href = '/scan?email=<%=email%>&code=<%=codeInt%>'"><img src="/images/qrcode.png" class="svg" alt="">Escanear</button> <!--adicionar svg dps-->
                 </div>
             
                 <div class="container-home">
-                    <h1>Reivindicar Recompensas</h1>
-                    <p>Utilize essa opção para trocar seus <u>EcoPoints</u> por recompensas como lápis, canecas e, é claro, dinheiro! Saiba mais acessando a loja.</p>
-                    <button class="big-btn-home"><img src="/images/addtocart.png" alt="" class="svg">Reivindicar</button> <!--adicionar svg dps-->
+                    <h1>Receber Recompensas</h1>
+                    <p>Utilize essa opção para trocar seus <u>EcoPoints</u> por recompensas como lápis, canecas e, entre outros! Saiba mais acessando a loja.</p>
+                    <button class="big-btn-home" onclick="window.location.href = '/shop?email=<%=email%>&code=<%=codeInt%>'"><img src="/images/addtocart.png" alt="" class="svg">Reivindicar</button> <!--adicionar svg dps-->
                 </div>
             </div>
             <div class="grid-display-2">
@@ -50,7 +50,7 @@
                     <img src="/images/User.png" alt="" class="center">
                     <h2 class="text-center"><%= email %></h2>
                     <div><img src="/images/EcoPoints.png" alt=""><p><%= points %></p></div>
-                    <button class="small-debug-btn" onclick="alert('<%= codeInt %>')">D</button>
+                    <button class="small-debug-btn" onclick="alert(code)">D</button>
                     <button class="big-btn-user-card" onclick="window.location.href='/'">Sair</div>
                 </div>
             </div> 
@@ -58,6 +58,7 @@
     </div>
 </body>
 <script>
+    const code = <%= codeInt %>;
     const curiosidades = [
         "Reciclar uma única latinha de alumínio economiza energia suficiente para manter uma TV ligada por até 3 horas e uma lâmpada de 100 watts acesa por até 20 horas, mostrando o enorme impacto energético dessa simples ação.",
         "O alumínio é um dos poucos materiais que pode ser reciclado infinitamente sem perder suas propriedades físicas e mecânicas, garantindo que uma latinha reciclada possa se tornar outra latinha de igual qualidade repetidas vezes.",

@@ -4,13 +4,18 @@ const path = require('path')
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 
-const adapter = new FileSync('users.json')
+const adapter = new FileSync('data.json')
 const db = low(adapter)
 
 
 
 // Initialize default structure if not exists
-db.defaults({ users: [], tokens: [] }).write()
+db.defaults({ users: [], tokens: [], rcodes: [] }).write() //redeem codes
+
+//TS IS WHILE ARDUINO DOES NOT WORK, ERASE AFTERWARDS
+
+//db.get("rcodes").push(123).write()
+//console.log(db.get("rcodes").value())
 
 
 const app = express()
@@ -42,6 +47,73 @@ app.get("/backdoor", (req, res) => {
     res.sendFile(path.join(__dirname, "/html/admin/backdoor.html"))
 })
 
+function checkValidity(code, email) {
+    let codeInt = db.get("tokens").find(email).value();
+    codeInt = codeInt[email];
+    if (code == codeInt) {return true}
+    else {return false}
+} 
+
+app.get("/home", (req, res) => {
+    const codeInt = parseInt(req.query.code);
+    const email = req.query.email;
+    if (checkValidity(codeInt, email)) {
+        const points = db.get("users").find({email}).value().points // ADD ERROR MANAGEMENT HERE
+        res.render('home', { email, points, codeInt })
+    }
+})
+
+app.get("/shop", (req, res) => {
+    const code = parseInt(req.query.code);
+    const email = req.query.email;
+
+    if (checkValidity(code, email)) {
+        const points = db.get("users").find({email}).value().points // ADD ERROR MANAGEMENT HERE
+        res.render('shop', { email, points, code })
+    }else{
+        res.redirect(`/error?code=${401}&message=Credenciais inválidas`)
+    }
+})
+
+app.get("/scan", (req, res) => {
+    const code = parseInt(req.query.code);
+    const email = req.query.email;
+    
+    if (checkValidity(code, email)) {
+        const points = db.get("users").find({email}).value().points // ADD ERROR MANAGEMENT HERE
+        res.render('points', { email, points, code })
+    }else{
+        res.redirect(`/error?code=${401}&message=Credenciais inválidas`)
+    }
+})
+
+app.get("/check", (req, res) => {
+    const sessionCode = parseInt(req.query.code); //session code
+    const email = req.query.email;
+    const checkCode = parseInt(req.query.checkcode); //code to be removed from points
+    
+    if (checkValidity(sessionCode, email)) {
+        const rcodes = db.get("rcodes")
+        const users = db.get("users")
+        const codeInt = sessionCode
+
+        rcodes.update() //fix this later ig
+        if (rcodes.find({"code":checkCode}).value() != undefined) { //CODE EXISTS
+
+            rcodes.remove({"code":checkCode}).write()
+
+            users.find({email}).value().points += 10
+            const points = users.find({email}).value().points
+
+            res.redirect(`/home?code=${codeInt}&email=${email}`) //use codeInt here cuz it is referenced in home.ejs
+        }else{
+            res.redirect(`/error?code=${401}&message=Código inexistente`)
+        }
+    }else{
+        res.redirect(`/error?code=${401}&message=Sessão inválida`)
+    }
+})
+
 // POST REQUESTS
 app.post("/signup", (req, res) => {
     const { email, password, cpassword } = req.body
@@ -49,14 +121,14 @@ app.post("/signup", (req, res) => {
 
     // Optional: Simple validation
     if (!email || !password || password !== cpassword) {
-        return res.status(400).send("Invalid input")
+        return res.redirect(`/error?code=${400}&message=Input Inválido.`)
     }
 
     
     const existingUser = db.get("users").find({email}).value()
     
     if (existingUser) {
-        res.status(409).send("user already exists")
+        res.redirect(`/error?code=${401}&message=O usuário já existe.`)
     }
 
     // Save to db
@@ -94,7 +166,7 @@ app.post("/login", (req, res) => {
             db.get("tokens").push({[email]: codeInt}).write() 
 
 
-            res.render('home', { email, points, codeInt })
+            res.redirect(`/home?code=${codeInt}&email=${email}`)
         }else{
             const message = encodeURIComponent("Senha Incorreta")
             res.redirect(`/error?code=${401}&message=${message}`)
@@ -104,6 +176,8 @@ app.post("/login", (req, res) => {
         res.redirect(`/error?code=${401}&message=${message}`)
     }
 })
+
+
 
 app.post("/backdoor", (req, res) => {
     const password = req.body.password
@@ -135,6 +209,14 @@ app.get("/static/error.css", (req, res) => {
 
 app.get("/static/info.css", (req, res) => {
     res.sendFile(path.join(__dirname, "/static/info.css"))
+})
+
+app.get("/static/points.css", (req, res) => {
+    res.sendFile(path.join(__dirname, "/static/points.css"))
+})
+
+app.get("/static/shop.css", (req, res) => {
+    res.sendFile(path.join(__dirname, "/static/shop.css"))
 })
 
 app.listen(PORT, () => {

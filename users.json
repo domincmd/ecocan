@@ -1,14 +1,5 @@
 {
-  "users": [
-    {
-      "email": "felipe@gmail.com",
-      "password": "1230",
-      "points": 0
-    }
-  ],
-  "tokens": [
-    {
-      "felipe@gmail.com": 56941072
-    }
-  ]
+  "users": [],
+  "tokens": [],
+  "rcodes": []
 }
