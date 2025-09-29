@@ -190,7 +190,7 @@ app.post("/backdoor", (req, res) => {
 })
 
 
-// OTHER FILES' REQUESTS (already handled by static middleware, but this is okay too) // GO FUCK URSELF CHATGPT, MY CODE, MY RULES U MOTHERFUCKER ASKLDHJASLKDHJ
+// OTHER FILES' REQUESTS (already handled by static middleware, but this is okay too) // GO FUCK URSELF CHATGPT, MY CODE, MY RULES U MOTHERFUCKER ASKLDHJASLKDHJS
 app.get("/static/style.css", (req, res) => {
     res.sendFile(path.join(__dirname, "/static/style.css"))
 })
