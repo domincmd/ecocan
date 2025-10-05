@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const path = require('path')
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
+const { SerialPort, ReadlineParser } = require('serialport');
 
 const adapter = new FileSync('tmp/data.json')
 const db = low(adapter)
@@ -12,10 +13,65 @@ const db = low(adapter)
 // Initialize default structure if not exists
 db.defaults({ users: [], tokens: [], rcodes: [] }).write() //redeem codes
 
-//TS IS WHILE ARDUINO DOES NOT WORK, ERASE AFTERWARDS
+const COM_PORT = 'COM4'; // define your specific port
+const BAUD_RATE = 9600;
 
-//db.get("rcodes").push(123).write()
-//console.log(db.get("rcodes").value())
+// ---- Initialize Serial Port ----
+const port = new SerialPort({
+    path: COM_PORT,
+    baudRate: BAUD_RATE,
+    autoOpen: false
+});
+
+port.on('open', () => {
+    console.log('✅ Serial port opened. Listening...');
+});
+
+port.on('error', err => {
+    console.error('Serial Port Error:', err.message);
+});
+
+// Try to open the port directly
+port.open(err => {
+    if (err) {
+        console.error('Failed to open port:', err.message);
+        process.exit(1);
+    }
+});
+
+// ---- Parser Setup ----
+const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
+
+parser.on('data', line => {
+    const match = String(line).match(/-?\d+(?:\.\d+)?/);
+    if (!match) return;
+
+    const code = Number(match[0]);
+    if (Number.isNaN(code)) return;
+
+    handleArduinoCode(code);
+});
+
+// ---- Custom Handler ----
+function handleArduinoCode(codeNumber) {
+    console.log('[Parsed code]', codeNumber);
+
+    db.get('rcodes')
+        .push({ code: codeNumber })
+        .write();
+
+    // Add any additional logic here
+}
+
+// ---- Graceful Shutdown ----
+process.on('SIGINT', () => {
+    console.log('\nClosing serial port...');
+    try {
+        port.close(() => process.exit(0));
+    } catch (_) {
+        process.exit(0);
+    }
+});
 
 
 const app = express()
@@ -102,7 +158,10 @@ app.get("/check", (req, res) => {
 
             rcodes.remove({"code":checkCode}).write()
 
-            users.find({email}).value().points += 10
+            db.get('users')
+                .find({ email })
+                .assign({ points: db.get('users').find({ email }).value().points + 10 })
+                .write();
             const points = users.find({email}).value().points
 
             res.redirect(`/home?code=${codeInt}&email=${email}`) //use codeInt here cuz it is referenced in home.ejs
@@ -222,3 +281,4 @@ app.get("/static/shop.css", (req, res) => {
 app.listen(PORT, () => {
     console.log("Listening at port: " + PORT)
 })
+
