@@ -3,7 +3,7 @@
     {
       "email": "felipe@gmail.com",
       "password": "1230",
-      "points": 100
+      "points": 120
     },
     {
       "email": "fe@gmail.com",
@@ -16,8 +16,12 @@
       "fe@gmail.com": 17345037
     },
     {
-      "felipe@gmail.com": 62147240
+      "felipe@gmail.com": 23999833
     }
   ],
-  "rcodes": []
+  "rcodes": [
+    {
+      "code": 16521116
+    }
+  ]
 }

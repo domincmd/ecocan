@@ -40,27 +40,18 @@ port.open(err => {
 });
 
 // ---- Parser Setup ----
-const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
+const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' })); // or '\n'
 
-parser.on('data', line => {
-    const match = String(line).match(/-?\d+(?:\.\d+)?/);
-    if (!match) return;
-
-    const code = Number(match[0]);
-    if (Number.isNaN(code)) return;
-
-    handleArduinoCode(code);
+parser.on('data', (line) => {
+  const text = String(line).trim();        // remove CR/LF, spaces
+  const n = Number(text);                  // your Arduino prints a number per line
+  if (!Number.isNaN(n)) handleArduinoCode(n);
 });
 
 // ---- Custom Handler ----
 function handleArduinoCode(codeNumber) {
-    console.log('[Parsed code]', codeNumber);
-
-    db.get('rcodes')
-        .push({ code: codeNumber })
-        .write();
-
-    // Add any additional logic here
+  console.log('[Parsed code]', codeNumber);
+  db.get('rcodes').push({ code: codeNumber }).write();
 }
 
 // ---- Graceful Shutdown ----
