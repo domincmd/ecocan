@@ -33,7 +33,7 @@ body {
 }
 
 .header {
-    width: 100vw;
+    width: 100%;
     height: auto;
     background-color: var(--accent-light);
     color: #333;
@@ -55,9 +55,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    width: 30%;
     font-size: 1.2rem;
     font-weight: 600;
+    gap: 20px;
+    padding: 0px 20px;
 }
 
 .header>.links>span {
@@ -86,12 +87,10 @@ body {
 
 
 .outer-container-home {
-    width: 70%;
+    width: min-content;
+    display: block;
+    margin: 0 auto;
     height: 85%;
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .container {
@@ -99,7 +98,9 @@ body {
     padding: 30px;
     border-radius: 20px;
     font-size: 1rem;
-    width: auto;
+    width: fit-content;
+    display: block;
+    margin: 0 auto;
     border: 2px solid var(--background-darker);
 }
 
@@ -178,4 +179,32 @@ div .center {
 
 .big-btn-user-card:hover {
     border-radius: 25vmin;
+}
+
+.transparent-button {
+    background: transparent;
+    border: none;
+}
+
+.dropdown-button {
+    padding: 0px 15px;
+}
+
+/*MOBILE SHIT HERE*/
+
+/* 1) Fluid typography & spacing that scales down nicely */
+:root{
+  --space: clamp(.75rem, 2.5vw, 1.25rem);
+  --fs-base: clamp(.95rem, .6vw + .85rem, 1.05rem);
+  --fs-h1: clamp(1.6rem, 4vw, 2.4rem);
+  --fs-h2: clamp(1.3rem, 2.5vw, 1.8rem);
+}
+html { font-size: 16px; }
+body { font: 400 var(--fs-base)/1.55 system-ui, sans-serif; }
+
+.show-mobile {display: none;}
+
+@media (max-width: 56.25rem) { /* 900px */
+    .hide-mobile, .hide-mobile * { display: none !important; }
+    .show-mobile, .show-mobile * { display: block !important;}
 }

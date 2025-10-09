@@ -15,11 +15,12 @@
         <div class="logo" onclick="window.location.href = '/'">
             <img src="/images/EcoCanFULL.png" alt="">
         </div>
-        <div class="links">
+        <div class="links hide-mobile">
             <span onclick="window.location.href='/quemsomos'">Quem Somos</span>
             <span>Como Operamos</span>
-            <span>Benefícios</span>
+            <span>Detalhes Técnicos</span>
         </div>
+        <button class="dropdown-button transparent-button show-mobile"><img src="/images/addtocart.png" alt=""></button>
     </div>
     <div class="main-container">
         <div class="outer-container-home">
@@ -42,15 +43,14 @@
                         <h1>Você Sabia?</h2>
                         <p>Se você está vendo isso, ocorreu um erro. Era para aparecer uma curiosidade sobre reciclagem aqui :P</p>
                     </div>
-                    <div class="fun-fact-right">
-                        <img src="/images/Recycling.png" alt="">
+                    <div class="fun-fact-right" class="hide-mobile">
+                        <img src="/images/Recycling.png" alt="" class="hide-mobile">
                     </div>
                 </div>
                 <div class="container-home user-card">
                     <img src="/images/User.png" alt="" class="center">
                     <h2 class="text-center"><%= email %></h2>
                     <div><img src="/images/EcoPoints.png" alt=""><p><%= points %></p></div>
-                    <button class="small-debug-btn" onclick="alert(code)">D</button>
                     <button class="big-btn-user-card" onclick="window.location.href='/'">Sair</div>
                 </div>
             </div> 

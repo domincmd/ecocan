@@ -66,7 +66,8 @@ process.on('SIGINT', () => {
 
 
 const app = express()
-const PORT = 5000
+const PORT = process.env.PORT || 3000
+const HOST = '0.0.0.0'
 const adminPassword = "eco123" //NEEDS TO BE SAFER AFTERWARDS
 
 // MIDDLEWARE
@@ -269,7 +270,7 @@ app.get("/static/shop.css", (req, res) => {
     res.sendFile(path.join(__dirname, "/static/shop.css"))
 })
 
-app.listen(PORT, () => {
-    console.log("Listening at port: " + PORT)
+app.listen(PORT, HOST, () => {
+    console.log(`Listening on http://${HOST}:${PORT}`)
 })
 
