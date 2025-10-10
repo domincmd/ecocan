@@ -6,12 +6,14 @@
     <title>Início</title>
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="/static/home.css">
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
     </style>
 </head>
 <body>
     <div class="header">
+        <script src="/static/dropdown.js" defer></script>
         <div class="logo" onclick="window.location.href = '/'">
             <img src="/images/EcoCanFULL.png" alt="">
         </div>
@@ -20,7 +22,25 @@
             <span>Como Operamos</span>
             <span>Detalhes Técnicos</span>
         </div>
-        <button class="dropdown-button transparent-button show-mobile"><img src="/images/addtocart.png" alt=""></button>
+        <button class="dropdown-button transparent-button show-mobile" onclick="toggleDropdownMenu()"><img src="/images/menu.svg" alt=""></button>
+        <div class="dropdown-menu" style="display: none;">
+            <div class="dropdown-menu-inner">
+                <button class="dropdown-close-button transparent-button" onclick="toggleDropdownMenu()"><img src="/images/close.svg" alt=""></button>
+                <div class="align-top">
+                    <h1>Nossas páginas:</h1>
+                    <ul>
+                        <li><a href="/quemsomos">Quem Somos</a></li>
+                        <li><a href="/comooperamos">Como Operamos</a></li>
+                        <li><a href="/quemsomos">Detalhes Técnicos</a></li>
+                    </ul>
+                </div>
+                <div class="align-bottom">
+                    <hr>
+                    <p>Projeto por Pedro R., Henrique O., Matheus J., Felipe D.</p>
+                    <p>Site feito inteiramente por Felipe D. com muito carinho :)</p>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="main-container">
         <div class="outer-container-home">

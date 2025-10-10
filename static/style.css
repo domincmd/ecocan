@@ -36,7 +36,7 @@ body {
     width: 100%;
     height: auto;
     background-color: var(--accent-light);
-    color: #333;
+    color: var(--text-dark);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -86,12 +86,7 @@ body {
 
 
 
-.outer-container-home {
-    width: min-content;
-    display: block;
-    margin: 0 auto;
-    height: 85%;
-}
+
 
 .container {
     background-color: var(--background-dark);
@@ -100,7 +95,7 @@ body {
     font-size: 1rem;
     width: fit-content;
     display: block;
-    margin: 0 auto;
+    margin: 15px auto;
     border: 2px solid var(--background-darker);
 }
 
@@ -186,9 +181,6 @@ div .center {
     border: none;
 }
 
-.dropdown-button {
-    padding: 0px 15px;
-}
 
 /*MOBILE SHIT HERE*/
 
@@ -207,4 +199,58 @@ body { font: 400 var(--fs-base)/1.55 system-ui, sans-serif; }
 @media (max-width: 56.25rem) { /* 900px */
     .hide-mobile, .hide-mobile * { display: none !important; }
     .show-mobile, .show-mobile * { display: block !important;}
+    .dropdown-menu {
+        position: fixed;
+        width: 100vw;
+        height: 200vh; /*uhh dunno why dis wokrs but it just works*/
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9;
+    }
+    .dropdown-menu-inner {
+        padding: 15px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80vw;
+        height: 80vh;
+        background-color: var(--accent-light);
+        border: 3px solid var(--accent);
+        z-index: 10;
+        border-radius: 25px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .dropdown-menu-inner > .align-top, .dropdown-menu-inner > .align-bottom  {
+        width: 100%;
+    }
+
+    .dropdown-menu-inner > .align-bottom > hr {
+        border: 1px solid #505050;
+    }
+
+    .dropdown-menu-inner a {
+        color: var(--text-dark);
+        font-size: 20px;
+    }
+    .dropdown-menu-inner li {
+        padding: 0px 10px;
+        list-style-position: inside;
+    }
+
+    .dropdown-close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        transition: 0.3s ease;
+    }
+
+    .dropdown-button {
+    padding: 0px 15px;
+    }
+    .dropdown-button *  {
+        width: 40px;
+    }
 }
