@@ -9,6 +9,11 @@
       "email": "fe@gmail.com",
       "password": "1234",
       "points": 0
+    },
+    {
+      "email": "felipe@gmail.com",
+      "password": "aaa",
+      "points": 0
     }
   ],
   "tokens": [
@@ -16,7 +21,7 @@
       "fe@gmail.com": 17345037
     },
     {
-      "felipe@gmail.com": 76189648
+      "felipe@gmail.com": 56913021
     }
   ],
   "rcodes": [
