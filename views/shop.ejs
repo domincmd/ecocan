@@ -12,13 +12,33 @@
 </head>
 <body>
     <div class="header">
+        <script src="/static/dropdown.js" defer></script>
         <div class="logo" onclick="window.location.href = '/'">
             <img src="/images/EcoCanFULL.png" alt="">
         </div>
-        <div class="links">
+        <div class="links hide-mobile">
             <span onclick="window.location.href='/quemsomos'">Quem Somos</span>
             <span>Como Operamos</span>
-            <span>Benefícios</span>
+            <span>Detalhes Técnicos</span>
+        </div>
+        <button class="dropdown-button transparent-button show-mobile" onclick="toggleDropdownMenu()"><img src="/images/menu.svg" alt=""></button>
+        <div class="dropdown-menu" style="display: none;">
+            <div class="dropdown-menu-inner">
+                <button class="dropdown-close-button transparent-button" onclick="toggleDropdownMenu()"><img src="/images/close.svg" alt=""></button>
+                <div class="align-top">
+                    <h1>Nossas páginas:</h1>
+                    <ul>
+                        <li><a href="/quemsomos">Quem Somos</a></li>
+                        <li><a href="/comooperamos">Como Operamos</a></li>
+                        <li><a href="/quemsomos">Detalhes Técnicos</a></li>
+                    </ul>
+                </div>
+                <div class="align-bottom">
+                    <hr>
+                    <p>Projeto por Pedro R., Henrique O., Matheus J., Felipe D.</p>
+                    <p>Site feito inteiramente por Felipe D. com muito carinho :)</p>
+                </div>
+            </div>
         </div>
     </div>
     <div class="main-container">

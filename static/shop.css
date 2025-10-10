@@ -92,3 +92,21 @@
 .button-shop-item:hover {
     border-radius: 15px;
 }
+
+@media (max-width: 56.25rem) { /* 900px */
+    .shop-outer-container {
+        width: 100%;
+        margin: 0px 10px;
+    }
+    .shop-inner-container {
+        display: block;
+        box-sizing: border-box;
+        margin: 0px 20%;
+    }
+    .shop-item {
+        height: fit-content;
+    }
+    .shop-item * {
+        margin: 5px;
+    }
+}

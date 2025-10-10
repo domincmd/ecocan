@@ -140,12 +140,7 @@
     font-size: 1.3rem;
 }
 
-.dropdown-button {
-    padding: 0px 15px;
-}
-.dropdown-button *  {
-    width: 40px;
-}
+
 
 @media (max-width: 56.25rem){ /* 900px */
     .outer-container-home {
