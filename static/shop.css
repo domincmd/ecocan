@@ -54,7 +54,7 @@
 
 .container-shop-item {
     width: 100%;
-    height: 20px;
+    height: fit-content;
     margin-bottom: 5px;
     display: flex;
     justify-content: space-between;
@@ -72,8 +72,15 @@
     gap: 5px;
 }
 
+.subcontainer-shop-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+}
+
 .image-shop-item {
-    width: 80%;
+    width: 70%;
 }
 
 .button-shop-item {
@@ -91,6 +98,17 @@
 
 .button-shop-item:hover {
     border-radius: 15px;
+}
+
+.subtitle-shop-item {
+    padding: 0;
+    margin: 0;
+    font-size:medium;
+}
+
+.title-shop-item {
+    margin: 0;
+    padding: 0;
 }
 
 @media (max-width: 56.25rem) { /* 900px */

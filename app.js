@@ -91,6 +91,10 @@ app.get("/quemsomos", (req, res) => {
     res.sendFile(path.join(__dirname, "/html/info/quemsomos.html"))
 })
 
+app.get("/detalhestecnicos", (req, res) => {
+    res.sendFile(path.join(__dirname, "/html/info/detalhestecnicos.html"))
+})
+
 app.get("/backdoor", (req, res) => {
     res.sendFile(path.join(__dirname, "/html/admin/backdoor.html"))
 })

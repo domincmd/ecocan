@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quem Somos</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/info.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    </style>
+</head>
+<body>
+    <div class="header">
+        <script src="/static/dropdown.js" defer></script>
+        <div class="logo" onclick="window.location.href = '/'">
+            <img src="/images/EcoCanFULL.png" alt="">
+        </div>
+        <div class="links hide-mobile">
+            <span onclick="window.location.href='/quemsomos'">Quem Somos</span>
+            <span onclick="window.location.href='/comooperamos'">Como Operamos</span>
+            <span onclick="window.location.href='/detalhestecnicos'">Detalhes Técnicos</span>
+        </div>
+        <button class="dropdown-button transparent-button show-mobile" onclick="toggleDropdownMenu()"><img src="/images/menu.svg" alt=""></button>
+        <div class="dropdown-menu" style="display: none;">
+            <div class="dropdown-menu-inner">
+                <button class="dropdown-close-button transparent-button" onclick="toggleDropdownMenu()"><img src="/images/close.svg" alt=""></button>
+                <div class="align-top">
+                    <h1>Nossas páginas:</h1>
+                    <ul>
+                        <li><a href="/quemsomos">Quem Somos</a></li>
+                        <li><a href="/comooperamos">Como Operamos</a></li>
+                        <li><a href="/quemsomos">Detalhes Técnicos</a></li>
+                    </ul>
+                </div>
+                <div class="align-bottom">
+                    <hr>
+                    <p>Projeto por Pedro R., Henrique O., Matheus J., Felipe D.</p>
+                    <p>Site feito inteiramente por Felipe D. com muito carinho :)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-container">
+        <h1>Detalhes técnicos</h1>
+        <hr>
+        <h3>Código</h3>
+        <p>Na parte do código, nosso projeto é totalmente open-source. Todo o desenvolvimento pode ser acessado publicamente e redistribuído livremente, desde que os devidos créditos sejam mantidos. Acreditamos que compartilhamento de conhecimento impulsiona projetos melhores, então deixamos tudo documentado e disponível para quem quiser estudar, adaptar ou contribuir. O repositório completo está no link abaixo:</p>
+        <a href="https://github.com/domincmd/ecocan">https://github.com/domincmd/ecocan</a>
+        <h3>Software:</h3>
+        <p>Nosso site foi desenvolvido em NodeJS, utilizando os módulos <u>Express</u> (responsável pela parte de servidor e rotas do site) e <u>SerialReader</u> (que faz a comunicação direta com o Arduino para leitura dos dados). A base de dados foi construída com <u>LowDB</u>, que armazena as informações em um arquivo .json, garantindo simplicidade e agilidade no desenvolvimento.</p>
+        <p>A interface web foi feita com <u>HTML e CSS padrão</u>, mantendo leveza e compatibilidade com qualquer navegador. Em algumas páginas foi utilizado <u>EJS</u> para permitir a renderização dinâmica de dados diretamente no frontend.</p>
+        <h3>Hardware</h3>
+        <p>No hardware, utilizamos um <u>Arduino Uno</u> como unidade de controle principal, acompanhado de um <u>servo motor (modelo específico definido no protótipo final)</u> para o mecanismo de abertura e um <u>sensor ultrassônico HC-SR04</u>, responsável por detectar a aproximação da lata. Essa combinação permite uma automação simples, eficiente e de baixo custo, ideal para um projeto educativo e replicável.</p>
+    </div>
+</body>
+</html>
