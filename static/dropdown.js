@@ -1,5 +1,4 @@
 const dropdownContainer = document.querySelector(".dropdown-menu")
-console.log(dropdownContainer)
 
 function toggleDropdownMenu() {
     

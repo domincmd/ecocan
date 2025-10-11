@@ -54,10 +54,10 @@
                             <h2 class="title-shop-item">Iniciante</h2> <span class="price-shop-item">
                         </div>
                         <div class="subcontainer-shop-item">
-                            <img src="/images/EcoPoints.png" alt="" class="image-shop-item">10</span>
+                            <img src="/images/EcoPoints.png" alt="" class="image-shop-item">20</span>
                         </div>
                     </div>
-                    <button class="button-shop-item">Comprar</button>
+                    <button class="button-shop-item" onclick="buyThis(this)">Comprar</button>
                 </div>
                 <div class="shop-item">
                     <img src="/images/produtos/reciclador experiente.png" alt="" class="image-shop-item">
@@ -67,10 +67,10 @@
                             <h2 class="title-shop-item">Experiente</h2> <span class="price-shop-item">
                         </div>
                         <div class="subcontainer-shop-item">
-                            <img src="/images/EcoPoints.png" alt="" class="image-shop-item">10</span>
+                            <img src="/images/EcoPoints.png" alt="" class="image-shop-item">50</span>
                         </div>
                     </div>
-                    <button class="button-shop-item">Comprar</button>
+                    <button class="button-shop-item" onclick="buyThis(this)">Comprar</button>
                 </div>
                 <div class="shop-item">
                     <img src="/images/produtos/reciclador lendario.png" alt="" class="image-shop-item">
@@ -80,12 +80,18 @@
                             <h2 class="title-shop-item">Lendário</h2> <span class="price-shop-item">
                         </div>
                         <div class="subcontainer-shop-item">
-                            <img src="/images/EcoPoints.png" alt="" class="image-shop-item">10</span>
+                            <img src="/images/EcoPoints.png" alt="" class="image-shop-item">100</span>
                         </div>
                     </div>
-                    <button class="button-shop-item">Comprar</button>
+                    <button class="button-shop-item" onclick="buyThis(this)">Comprar</button>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        function buyThis(element) {
+            const elementId = element.parentElement.querySelector(".title-shop-item").textContent
+            window.location.href = "/buy?email=<%= email %>&code=<%= code %>&buyId="+elementId
+        } 
+    </script>
 </body>

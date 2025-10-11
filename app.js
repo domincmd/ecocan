@@ -8,7 +8,11 @@ const { SerialPort, ReadlineParser } = require('serialport');
 const adapter = new FileSync('tmp/data.json')
 const db = low(adapter)
 
-
+const priceTable = {
+    "Iniciante": 20,
+    "Experiente": 50,
+    "Lendário": 100,
+}
 
 // Initialize default structure if not exists
 db.defaults({ users: [], tokens: [], rcodes: [] }).write() //redeem codes
@@ -122,6 +126,31 @@ app.get("/shop", (req, res) => {
     if (checkValidity(code, email)) {
         const points = db.get("users").find({email}).value().points // ADD ERROR MANAGEMENT HERE
         res.render('shop', { email, points, code })
+    }else{
+        res.redirect(`/error?code=${401}&message=Credenciais inválidas`)
+    }
+})
+
+app.get("/buy", (req, res) => {
+    const code = parseInt(req.query.code);
+    const email = req.query.email;
+    const buyId = req.query.buyId
+
+    if (checkValidity(code, email)) {
+        const points = db.get("users").find({email}).value().points // ADD ERROR MANAGEMENT HERE
+        const price = priceTable[buyId]
+        if (price == undefined) {
+            res.redirect(`/error?code=${401}&message=Id de compra inválido`)
+        }
+        if (points >= price) {
+            db.get('users')
+                .find({ email })
+                .assign({ points: db.get('users').find({ email }).value().points -= price })
+                .write();
+            res.redirect(`/home?email=${email}&code=${code}&message=Compra Efetuada!`)
+        }else{
+            res.redirect(`/error?code=${401}&message=${points},${price}`)
+        }
     }else{
         res.redirect(`/error?code=${401}&message=Credenciais inválidas`)
     }
