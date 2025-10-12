@@ -15,13 +15,10 @@ const priceTable = {
     "Lendário": 100,
 }
 
-// Initialize default structure if not exists
-db.defaults({ users: [], tokens: [], rcodes: [] }).write() //redeem codes
-
-const COM_PORT = 'COM4'; // define your specific port
+const COM_PORT = 'COM4'; // defines the arduino port
 const BAUD_RATE = 9600;
 
-// ---- Initialize Serial Port ----
+// initialize serial port
 const port = new SerialPort({
     path: COM_PORT,
     baudRate: BAUD_RATE,
@@ -29,14 +26,14 @@ const port = new SerialPort({
 });
 
 port.on('open', () => {
-    console.log('✅ Serial port opened. Listening...');
+    console.log('Serial port opened. Listening...');
 });
 
 port.on('error', err => {
     console.error('Serial Port Error:', err.message);
 });
 
-// Try to open the port directly
+// try to open the port
 port.open(err => {
     if (err) {
         console.error('Failed to open port:', err.message);
@@ -44,22 +41,22 @@ port.open(err => {
     }
 });
 
-// ---- Parser Setup ----
-const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' })); // or '\n'
+// parser
+const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 
 parser.on('data', (line) => {
-  const text = String(line).trim();        // remove CR/LF, spaces
-  const n = Number(text);                  // your Arduino prints a number per line
+  const text = String(line).trim();        
+  const n = Number(text);                  
   if (!Number.isNaN(n)) handleArduinoCode(n);
 });
 
-// ---- Custom Handler ----
+// add arduino code to the db
 function handleArduinoCode(codeNumber) {
   console.log('[Parsed code]', codeNumber);
   db.get('rcodes').push({ code: codeNumber }).write();
 }
 
-// ---- Graceful Shutdown ----
+// shutdown and cleanup
 process.on('SIGINT', () => {
     console.log('\nClosing serial port...');
     try {
@@ -104,9 +101,6 @@ app.get("/detalhestecnicos", (req, res) => {
     res.sendFile(path.join(__dirname, "/html/info/detalhestecnicos.html"))
 })
 
-app.get("/backdoor", (req, res) => {
-    res.sendFile(path.join(__dirname, "/html/admin/backdoor.html"))
-})
 
 function checkValidity(code, email) {
     let codeInt = db.get("tokens").find(email).value();
@@ -152,7 +146,7 @@ app.get("/buy", (req, res) => {
                 .find({ email })
                 .assign({ points: db.get('users').find({ email }).value().points -= price })
                 .write();
-                fs.appendFile('compras.txt', `\n[COMPRA]: ${email} comprou por ${price}ep. um ${buyId}`, (err) => { //adiciona na db pros admins verem
+                fs.appendFile('tmp/compras.txt', `\n[COMPRA]: ${email} comprou por ${price}ep. um ${buyId}`, (err) => { //adiciona na db pros admins verem
                     if (err) throw err;
                 });
             res.redirect(`/home?email=${email}&code=${code}&message=Compra Efetuada!`)
@@ -266,18 +260,6 @@ app.post("/login", (req, res) => {
     }else{
         const message = encodeURIComponent("Email Não Registrado")
         res.redirect(`/error?code=${401}&message=${message}`)
-    }
-})
-
-
-
-app.post("/backdoor", (req, res) => {
-    const password = req.body.password
-
-    if (password === adminPassword) {
-        res.sendFile(path.join(__dirname, "/html/admin/dashboard.html"))
-    }else{
-        res.redirect("/error?code=401&message="+encodeURIComponent("Senha Incorreta"))
     }
 })
 

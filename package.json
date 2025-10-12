@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^2.2.0",
+    "bonjour": "^3.5.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "lowdb": "^1.0.0",
