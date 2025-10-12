@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
 const low = require('lowdb')
+const fs = require('fs')
 const FileSync = require('lowdb/adapters/FileSync')
 const { SerialPort, ReadlineParser } = require('serialport');
 
@@ -95,6 +96,10 @@ app.get("/quemsomos", (req, res) => {
     res.sendFile(path.join(__dirname, "/html/info/quemsomos.html"))
 })
 
+app.get("/comooperamos", (req, res) => {
+    res.sendFile(path.join(__dirname, "/html/info/comooperamos.html"))
+})
+
 app.get("/detalhestecnicos", (req, res) => {
     res.sendFile(path.join(__dirname, "/html/info/detalhestecnicos.html"))
 })
@@ -147,6 +152,9 @@ app.get("/buy", (req, res) => {
                 .find({ email })
                 .assign({ points: db.get('users').find({ email }).value().points -= price })
                 .write();
+                fs.appendFile('compras.txt', `\n[COMPRA]: ${email} comprou por ${price}ep. um ${buyId}`, (err) => { //adiciona na db pros admins verem
+                    if (err) throw err;
+                });
             res.redirect(`/home?email=${email}&code=${code}&message=Compra Efetuada!`)
         }else{
             res.redirect(`/error?code=${401}&message=${points},${price}`)

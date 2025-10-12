@@ -18,6 +18,11 @@ p {
     text-align: justify;
 }
 
+.main-container li {
+    font-size: 1.5rem;
+    list-style-position: inside;
+}
+
 p.paragraph {
     text-indent: 2em;
 }

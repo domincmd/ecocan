@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Como operamos</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/info.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    </style>
+</head>
+<body>
+    <div class="header">
+        <script src="/static/dropdown.js" defer></script>
+        <div class="logo" onclick="window.location.href = '/'">
+            <img src="/images/EcoCanFULL.png" alt="">
+        </div>
+        <div class="links hide-mobile">
+            <span onclick="window.location.href='/quemsomos'">Quem Somos</span>
+            <span onclick="window.location.href='/comooperamos'">Como Operamos</span>
+            <span onclick="window.location.href='/detalhestecnicos'">Detalhes Técnicos</span>
+        </div>
+        <button class="dropdown-button transparent-button show-mobile" onclick="toggleDropdownMenu()"><img src="/images/menu.svg" alt=""></button>
+        <div class="dropdown-menu" style="display: none;">
+            <div class="dropdown-menu-inner">
+                <button class="dropdown-close-button transparent-button" onclick="toggleDropdownMenu()"><img src="/images/close.svg" alt=""></button>
+                <div class="align-top">
+                    <h1>Nossas páginas:</h1>
+                    <ul>
+                        <li><a href="/quemsomos">Quem Somos</a></li>
+                        <li><a href="/comooperamos">Como Operamos</a></li>
+                        <li><a href="/quemsomos">Detalhes Técnicos</a></li>
+                    </ul>
+                </div>
+                <div class="align-bottom">
+                    <hr>
+                    <p>Projeto por Pedro R., Henrique O., Matheus J., Felipe D.</p>
+                    <p>Site feito inteiramente por Felipe D. com muito carinho :)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-container">
+        <h1>Como Operamos</h2>
+        <hr>
+        <p class="paragraph">Nosso projeto é dividido em duas grandes partes: a <strong>lixeira inteligente</strong> e o <strong>servidor</strong>. Cada uma desempenha um papel essencial para que tudo funcione de forma automatizada e organizada.</p>
+        <br>
+        <h3>Lixeira</h3>
+        <p class="paragraph">Na parte física, desenvolvemos um sistema composto por três elementos principais: um <strong>Arduino</strong>, um <strong>sensor ultrassônico</strong> e um <strong>servo motor</strong>. O sensor e o servo são acoplados a um cano, enquanto o Arduino fica fixado na estrutura (como dá para ver na foto, que explica mais do que mil palavras).</p>
+        <p class="paragraph">A dinâmica é a seguinte: quando uma latinha é inserida, ela desce pelo cano e fica temporariamente segurada por um <strong>chão retrátil</strong> acionado pelo servo motor. Assim que a latinha é detectada pelo sensor ultrassônico, essa informação é enviada para o Arduino. O Arduino, então, libera o chão retrátil para que a latinha caia no compartimento e, ao mesmo tempo, envia um código para o servidor — é aqui que a parte digital começa.</p>
+        <br>
+        <h3>Servidor</h3>
+        <p class="paragraph">A segunda parte é um pouco mais sofisticada. Nosso servidor, que também hospeda o website, é responsável pela lógica do sistema. Apesar de conter várias camadas técnicas, podemos simplificar o funcionamento.</p>
+        <p class="paragraph">Ao acessar o site, o usuário vê uma tela com duas opções: <strong>criar uma conta</strong> ou <strong>entrar com uma conta existente</strong>. Depois de logado, ele é direcionado para a página inicial, onde pode realizar diversas ações:</p>
+        <br>
+        <ul>
+            <li><strong>Reivindicar pontos</strong>, inserindo o código gerado automaticamente pela lixeira ao reciclar.</li>
+            <li><strong>Trocar recompensas</strong>, utilizando os pontos acumulados.</li>
+            <li><strong>Acessar páginas de informação</strong>, como esta em que você está agora.</li>
+            <li><strong>Sair da conta</strong>, voltando para a tela inicial.</li>
+        </ul>
+        <br>
+        <p class="paragraph">Sempre que o servidor recebe um código enviado pelo Arduino, esse código é armazenado na base de dados. Dessa forma, o usuário pode inserir esse código manualmente para resgatar seus pontos — é quase como um sistema de “cupom de reciclagem”.</p>
+        <p class="paragraph">Além disso, quando alguém troca seus pontos por uma recompensa, essa ação é registrada e vai para um <strong>painel administrativo</strong>, onde os responsáveis podem verificar a solicitação, entregar o item físico e marcar a operação como concluída.</p>
+        <p>Todo esse fluxo pode ser visualizado de forma resumida na imagem abaixo:</p>
+        <img src="/images/operacao.jpeg" alt="">
+    </div>
+</body>
