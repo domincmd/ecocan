@@ -6,22 +6,12 @@
       "points": 0
     },
     {
-      "email": "fe@gmail.com",
-      "password": "1234",
+      "email": "a@gmail.com",
+      "password": "123",
       "points": 0
     }
   ],
   "tokens": [
-    {
-      "fe@gmail.com": 17345037
-    },
-    {
-      "felipe@gmail.com": 50352200
-    }
   ],
-  "rcodes": [
-    {
-      "code": 16756414
-    }
-  ]
+  "rcodes": []
 }

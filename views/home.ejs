@@ -98,12 +98,5 @@
     const curiosityP = document.querySelector(".fun-fact-left").querySelector("p")
 
     curiosityP.textContent = curiosidades[Math.round(Math.random()*(curiosidades.length-1))]
-
-    const params = new URLSearchParams(window.location.search);
-
-    const message = params.get('message');
-    if (message != undefined) {
-        alert(message)
-    }
 </script>
 </html>

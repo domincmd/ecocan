@@ -26,17 +26,17 @@ const port = new SerialPort({
 });
 
 port.on('open', () => {
-    console.log('Serial port opened. Listening...');
+    console.log('[STARTUP] Serial port opened. Listening...');
 });
 
 port.on('error', err => {
-    console.error('Serial Port Error:', err.message);
+    console.error('[ERROR] Serial Port Error:', err.message);
 });
 
 // try to open the port
 port.open(err => {
     if (err) {
-        console.error('Failed to open port:', err.message);
+        console.error('[ERROR] Failed to open port:', err.message);
         process.exit(1);
     }
 });
@@ -52,13 +52,13 @@ parser.on('data', (line) => {
 
 // add arduino code to the db
 function handleArduinoCode(codeNumber) {
-  console.log('[Parsed code]', codeNumber);
+  console.log('[ACTION] Code parsed and added:', codeNumber);
   db.get('rcodes').push({ code: codeNumber }).write();
 }
 
 // shutdown and cleanup
 process.on('SIGINT', () => {
-    console.log('\nClosing serial port...');
+    console.log('\n[SHUTDOWN] Closing serial port...');
     try {
         port.close(() => process.exit(0));
     } catch (_) {
@@ -87,6 +87,10 @@ app.get("/", (req, res) => {
 
 app.get("/error", (req, res) => {
     res.sendFile(path.join(__dirname, "html/error.html"))
+})
+
+app.get("/success", (req, res) => {
+    res.sendFile(path.join(__dirname, "html/success.html"))
 })
 
 app.get("/quemsomos", (req, res) => {
@@ -146,10 +150,11 @@ app.get("/buy", (req, res) => {
                 .find({ email })
                 .assign({ points: db.get('users').find({ email }).value().points -= price })
                 .write();
+                console.log(`[ACTION] Purchase: ${email} bought for the price of ${price}ep. a(n) ${buyId}`)
                 fs.appendFile('tmp/compras.txt', `\n[COMPRA]: ${email} comprou por ${price}ep. um ${buyId}`, (err) => { //adiciona na db pros admins verem
                     if (err) throw err;
                 });
-            res.redirect(`/home?email=${email}&code=${code}&message=Compra Efetuada!`)
+            res.redirect(`/success?email=${email}&code=${code}&message=Compra Efetuada!&page=home`)
         }else{
             res.redirect(`/error?code=${401}&message=${points},${price}`)
         }
@@ -222,7 +227,9 @@ app.post("/signup", (req, res) => {
       .push({ email, password, points }) // Don't store passwords like this in real apps // fuck u chatgpt
       .write()
 
-    res.send("User signed up successfully!")
+    console.log(`[ACTION] User successfully created account, email ${email}`)
+
+    res.redirect(`/success?message=Conta criada!&page=`)
 })
 
 app.post("/login", (req, res) => {
@@ -239,7 +246,6 @@ app.post("/login", (req, res) => {
             .value();
 
             let codeInt;
-            console.log(code)
 
             if (code) { //if there is a code, remove it
                 db.get("tokens")
@@ -250,6 +256,8 @@ app.post("/login", (req, res) => {
             //add a code
             codeInt = Math.round(Math.random() * 100000000)
             db.get("tokens").push({[email]: codeInt}).write() 
+
+            console.log(`[ACTION] User successfully logged in, email ${email} code ${codeInt}`)
 
 
             res.redirect(`/home?code=${codeInt}&email=${email}`)
@@ -294,6 +302,6 @@ app.get("/static/shop.css", (req, res) => {
 })
 
 app.listen(PORT, HOST, () => {
-    console.log(`Listening on http://${HOST}:${PORT}`)
+    console.log(`[STARTUP] Listening on http://${HOST}:${PORT}`)
 })
 

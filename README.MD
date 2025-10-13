@@ -9,7 +9,7 @@ Nosso manual de instruções do administrador pode ser constituido em 3 seções
 ### Arduino
 
 Assim que o programa iniciar, ele deve mandar no console algo como: 
-`Serial port opened. Listening...`
+`[STARTUP] Serial port opened. Listening...`
 
 Isso significa que o programa abriu a porta certa e está "escutando" o Arduino.
 Se algum erro ocorrer, verifique-se que:
@@ -17,11 +17,11 @@ Se algum erro ocorrer, verifique-se que:
  - O Arduino IDE está fechado (ele "bloqueia" o acesso caso esteja aberto)
 
 Quando alguma latinha for reciclada, o programa tem que falar algo como
-`[Parsed code] 16756414`
+`[ACTION] Code parsed and added: 16756414`.
 Isso significa que ele detectou o código e o adicionou à base de dados.
 
 Quando o programa se encerrar, o programa dirá
-`Closing serial port...`
+`[SHUTDOWN] Closing serial port...`.
 
 ### Base de dados
 
@@ -36,8 +36,8 @@ As compras estão guardadas no arquivo compras.txt (muito difícil, eu sei), tam
 O website é mais complicado, mas a dá pra explicar. O site tem uma página de erro própria (para coisas banais, às quais não se deve preocupar), que fala o código do erro e uma mensagem. Como o autor do programa não sabe o sistema de códigos de erros, todos são 401, mas a mensagem é sempre diferente (e, com sorte, autoexplicativa).
 
 Se você for redirecionado à uma página toda branca com um erro em inglês, aí tem que ficar preocupado, porque isso não foi um erro que o sistema diagnosticou.
-Se o erro ler `Unable to GET/POST /[algo aqui]`, então fica de boa, isso só significa que a página não está funcionando, o que é triste, mas podia ser pior.
-Se o erro ler várias linhas de módulos e linhas de código diferentes, então o problema é bem complicado e não deveria acontecer. (Varia muito de caso pra caso, então só boa sorte mesmo)
+ - Se o erro ler `Unable to GET/POST /[algo aqui]`, então fica de boa, isso só significa que a página não está funcionando, o que é triste, mas podia ser pior.
+ - Se o erro ler várias linhas de módulos e linhas de código diferentes, então o problema é bem complicado e não deveria acontecer. (Varia muito de caso pra caso, então só boa sorte mesmo)
 
 
 ## Coisas a fazer
@@ -46,3 +46,4 @@ Se o erro ler várias linhas de módulos e linhas de código diferentes, então 
  - Adicionar documentação FEITO
  - Adicionar URL bonito NAO VAI ROLAR
  - Adicionar logging de console correto e polir em geral TO FAZENDO
+ - Adicionar página de sucesso
