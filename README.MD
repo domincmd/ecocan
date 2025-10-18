@@ -42,8 +42,4 @@ Se você for redirecionado à uma página toda branca com um erro em inglês, a�
 
 ## Coisas a fazer
 
- - Remover funcionalidades de ADM FEITO
- - Adicionar documentação FEITO
- - Adicionar URL bonito NAO VAI ROLAR
- - Adicionar logging de console correto e polir em geral TO FAZENDO
- - Adicionar página de sucesso
+ - Nada aqui
