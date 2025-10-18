@@ -15,7 +15,7 @@ const priceTable = {
     "Lendário": 100,
 }
 
-const COM_PORT = 'COM4'; // defines the arduino port
+const COM_PORT = 'COM3'; // defines the arduino port
 const BAUD_RATE = 9600;
 
 // initialize serial port
@@ -53,6 +53,11 @@ parser.on('data', (line) => {
 // add arduino code to the db
 function handleArduinoCode(codeNumber) {
   console.log('[ACTION] Code parsed and added:', codeNumber);
+  fs.writeFile("tmp/codes.txt", codeNumber, (err) => {
+    if (err) {
+        console.log("[ERROR] Writing file codes.txt")
+    }
+  })
   db.get('rcodes').push({ code: codeNumber }).write();
 }
 
