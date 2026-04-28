@@ -5,9 +5,27 @@ const low = require('lowdb')
 const fs = require('fs')
 const FileSync = require('lowdb/adapters/FileSync')
 const { SerialPort, ReadlineParser } = require('serialport');
+const Database = require('better-sqlite3');
+const db = new Database('database.db');
+const session = require('express-session');
 
-const adapter = new FileSync('tmp/data.json')
-const db = low(adapter)
+
+
+//predefine sqlite actions
+const insertUser = db.prepare(`
+  INSERT INTO users (username, password, points)
+  VALUES (?, ?, ?)
+`);
+
+const getUser = db.prepare(`
+  SELECT * FROM users WHERE username = ?
+`);
+
+const getAll = db.prepare(`SELECT * FROM users`);
+
+const delUser = db.prepare(`
+  DELETE FROM users WHERE username = ?
+`);
 
 const priceTable = {
     "Iniciante": 20,
@@ -34,21 +52,21 @@ port.on('error', err => {
 });
 
 // try to open the port
-port.open(err => {
+/*port.open(err => {
     if (err) {
         console.error('[ERROR] Failed to open port:', err.message);
         process.exit(1);
     }
-});
+});*/
 
 // parser
 const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 
-parser.on('data', (line) => {
+/*parser.on('data', (line) => {
   const text = String(line).trim();        
   const n = Number(text);                  
   if (!Number.isNaN(n)) handleArduinoCode(n);
-});
+});*/
 
 // add arduino code to the db
 function handleArduinoCode(codeNumber) {
@@ -61,7 +79,7 @@ function handleArduinoCode(codeNumber) {
   db.get('rcodes').push({ code: codeNumber }).write();
 }
 
-// shutdown and cleanup
+/*// shutdown and cleanup
 process.on('SIGINT', () => {
     console.log('\n[SHUTDOWN] Closing serial port...');
     try {
@@ -69,7 +87,7 @@ process.on('SIGINT', () => {
     } catch (_) {
         process.exit(0);
     }
-});
+});*/
 
 
 const app = express()
@@ -84,6 +102,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', './views')
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: false
+}));
 
 // GET REQUESTS
 app.get("/", (req, res) => {
@@ -119,24 +142,29 @@ function checkValidity(code, email) {
 } 
 
 app.get("/home", (req, res) => {
-    const codeInt = parseInt(req.query.code);
-    const email = req.query.email;
-    if (checkValidity(codeInt, email)) {
-        const points = db.get("users").find({email}).value().points // ADD ERROR MANAGEMENT HERE
-        res.render('home', { email, points, codeInt })
+    if (!req.session.user) {
+        return res.redirect('/');
     }
+
+    const user = getUser.get(req.session.user.username)
+    const username = user.username
+    const points = user.points
+
+    res.render('home', { username, points})
+    
 })
 
 app.get("/shop", (req, res) => {
-    const code = parseInt(req.query.code);
-    const email = req.query.email;
-
-    if (checkValidity(code, email)) {
-        const points = db.get("users").find({email}).value().points // ADD ERROR MANAGEMENT HERE
-        res.render('shop', { email, points, code })
-    }else{
-        res.redirect(`/error?code=${401}&message=Credenciais inválidas`)
+    if (!req.session.user) {
+        return res.redirect('/');
     }
+
+    const user = getUser.get(req.session.user.username)
+    const username = user.username
+    const points = user.points
+
+    res.render('shop', { username, points })
+    
 })
 
 app.get("/buy", (req, res) => {
@@ -169,21 +197,25 @@ app.get("/buy", (req, res) => {
 })
 
 app.get("/scan", (req, res) => {
-    const code = parseInt(req.query.code);
-    const email = req.query.email;
-    
-    if (checkValidity(code, email)) {
-        const points = db.get("users").find({email}).value().points // ADD ERROR MANAGEMENT HERE
-        res.render('points', { email, points, code })
-    }else{
-        res.redirect(`/error?code=${401}&message=Credenciais inválidas`)
+    if (!req.session.user) {
+        return res.redirect('/');
     }
+
+    const user = getUser.get(req.session.user.username)
+    const username = user.username
+    const points = user.points
+
+    res.render('points', { username, points })
 })
 
-app.get("/check", (req, res) => {
-    const sessionCode = parseInt(req.query.code); //session code
-    const email = req.query.email;
-    const checkCode = parseInt(req.query.checkcode); //code to be removed from points
+app.get("/check", (req, res) => { //NEEDS REFACTORING
+    if (!req.session.user) {
+        return res.redirect('/');
+    }
+
+    const user = getUser.get(req.session.user.username)
+    const username = user.username
+    const points = user.points
     
     if (checkValidity(sessionCode, email)) {
         const rcodes = db.get("rcodes")
@@ -212,60 +244,49 @@ app.get("/check", (req, res) => {
 
 // POST REQUESTS
 app.post("/signup", (req, res) => {
-    const { email, password, cpassword } = req.body
+    const { username, password, cpassword } = req.body
     const points = 0
 
     // Optional: Simple validation
-    if (!email || !password || password !== cpassword) {
+    if (!username || !password || password !== cpassword) {
         return res.redirect(`/error?code=${400}&message=Input Inválido.`)
     }
 
     
-    const existingUser = db.get("users").find({email}).value()
+    const existingUser = getAll.all().includes(username)
     
     if (existingUser) {
         res.redirect(`/error?code=${401}&message=O usuário já existe.`)
     }
 
     // Save to db
-    db.get('users')
-      .push({ email, password, points }) // Don't store passwords like this in real apps // fuck u chatgpt
-      .write()
+    insertUser.run(username, password, 0)
 
-    console.log(`[ACTION] User successfully created account, email ${email}`)
+    console.log(`[ACTION] User successfully created account, username ${username}`)
 
     res.redirect(`/success?message=Conta criada!&page=`)
 })
 
 app.post("/login", (req, res) => {
-    const { email, password } = req.body
-    const emailExists = db.get("users").find({email}).value()
+    const { username, password } = req.body
+    const user = getUser.get(username)
 
-    if (emailExists) {
-        const correctPassword = emailExists.password
-        const points = emailExists.points
+    console.log({username, password})
+    console.log(user)
+
+    if (user) {
+        const correctPassword = user.password
+        const points = user.points
 
         if (password === correctPassword) {  
-            let code = db.get("tokens")
-            .find(obj => Object.keys(obj).includes(email))
-            .value();
+            req.session.user = {
+                username: user.username
+            };
 
-            let codeInt;
-
-            if (code) { //if there is a code, remove it
-                db.get("tokens")
-                .remove(obj => Object.keys(obj)[0] === email)
-                .write()
-            }
-
-            //add a code
-            codeInt = Math.round(Math.random() * 100000000)
-            db.get("tokens").push({[email]: codeInt}).write() 
-
-            console.log(`[ACTION] User successfully logged in, email ${email} code ${codeInt}`)
+            console.log(`[ACTION] User successfully logged in, email ${user.username}`)
 
 
-            res.redirect(`/home?code=${codeInt}&email=${email}`)
+            res.redirect(`/home`)
         }else{
             const message = encodeURIComponent("Senha Incorreta")
             res.redirect(`/error?code=${401}&message=${message}`)
@@ -276,35 +297,6 @@ app.post("/login", (req, res) => {
     }
 })
 
-
-// OTHER FILES' REQUESTS (already handled by static middleware, but this is okay too) // GO FUCK URSELF CHATGPT, MY CODE, MY RULES U MOTHERFUCKER ASKLDHJASLKDHJS
-app.get("/static/style.css", (req, res) => {
-    res.sendFile(path.join(__dirname, "/static/style.css"))
-})
-
-app.get("/static/home.css", (req, res) => {
-    res.sendFile(path.join(__dirname, "/static/home.css"))
-})
-
-app.get("/static/index.css", (req, res) => {
-    res.sendFile(path.join(__dirname, "/static/index.css"))
-})
-
-app.get("/static/error.css", (req, res) => {
-    res.sendFile(path.join(__dirname, "/static/error.css"))
-})
-
-app.get("/static/info.css", (req, res) => {
-    res.sendFile(path.join(__dirname, "/static/info.css"))
-})
-
-app.get("/static/points.css", (req, res) => {
-    res.sendFile(path.join(__dirname, "/static/points.css"))
-})
-
-app.get("/static/shop.css", (req, res) => {
-    res.sendFile(path.join(__dirname, "/static/shop.css"))
-})
 
 app.listen(PORT, HOST, () => {
     console.log(`[STARTUP] Listening on http://${HOST}:${PORT}`)
