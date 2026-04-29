@@ -21,11 +21,26 @@ const getUser = db.prepare(`
   SELECT * FROM users WHERE username = ?
 `);
 
+const updateUser = db.prepare(`
+  UPDATE users SET points = ? WHERE username = ?
+`);
+
 const getAll = db.prepare(`SELECT * FROM users`);
 
 const delUser = db.prepare(`
   DELETE FROM users WHERE username = ?
 `);
+
+const addCode = db.prepare(`
+    INSERT INTO codes (code)
+    VALUES (?)
+`)
+
+const getCodes = db.prepare(`SELECT * FROM codes`);
+
+const delCode = db.prepare(`
+    DELETE FROM codes WHERE code = ?
+`)
 
 const priceTable = {
     "Iniciante": 20,
@@ -217,28 +232,19 @@ app.get("/check", (req, res) => { //NEEDS REFACTORING
     const username = user.username
     const points = user.points
     
-    if (checkValidity(sessionCode, email)) {
-        const rcodes = db.get("rcodes")
-        const users = db.get("users")
-        const codeInt = sessionCode
+    
+    const codes = getCodes.all()
+    const recievedCode = toString(req.query.code) //this is probably the issue here
 
-        rcodes.update() //fix this later ig
-        if (rcodes.find({"code":checkCode}).value() != undefined) { //CODE EXISTS
+    if (codes.includes(recievedCode)) { //CODE EXISTS
 
-            rcodes.remove({"code":checkCode}).write()
+        delCode.run(recievedCode)
 
-            db.get('users')
-                .find({ email })
-                .assign({ points: db.get('users').find({ email }).value().points + 10 })
-                .write();
-            const points = users.find({email}).value().points
+        updateUser.run(points+10, user)
 
-            res.redirect(`/home?code=${codeInt}&email=${email}`) //use codeInt here cuz it is referenced in home.ejs
-        }else{
-            res.redirect(`/error?code=${401}&message=Código inexistente`)
-        }
+        res.redirect(`/home?code=${codeInt}&email=${email}`) //use codeInt here cuz it is referenced in home.ejs
     }else{
-        res.redirect(`/error?code=${401}&message=Sessão inválida`)
+        res.redirect(`/error?code=${401}&message=Código inexistente`)
     }
 })
 

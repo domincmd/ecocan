@@ -51,7 +51,7 @@
     </div>
     <script>
         function checkCode() {
-            window.location.href = `/check`
+            window.location.href = `/check?code=${document.getElementById("checkCode").value}`
         }
 
         document.addEventListener("keydown", (e) => {
