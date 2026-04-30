@@ -165,7 +165,7 @@ app.get("/home", (req, res) => {
     const username = user.username
     const points = user.points
 
-    res.render('home', { username, points})
+    res.render('home', { username, points })
     
 })
 
@@ -183,31 +183,30 @@ app.get("/shop", (req, res) => {
 })
 
 app.get("/buy", (req, res) => {
-    const code = parseInt(req.query.code);
-    const email = req.query.email;
+    if (!req.session.user) {
+        return res.redirect('/');
+    }
+
+    const user = getUser.get(req.session.user.username)
+    const username = user.username
+    const points = user.points
     const buyId = req.query.buyId
 
-    if (checkValidity(code, email)) {
-        const points = db.get("users").find({email}).value().points // ADD ERROR MANAGEMENT HERE
-        const price = priceTable[buyId]
-        if (price == undefined) {
-            res.redirect(`/error?code=${401}&message=Id de compra inválido`)
-        }
-        if (points >= price) {
-            db.get('users')
-                .find({ email })
-                .assign({ points: db.get('users').find({ email }).value().points -= price })
-                .write();
-                console.log(`[ACTION] Purchase: ${email} bought for the price of ${price}ep. a(n) ${buyId}`)
-                fs.appendFile('tmp/compras.txt', `\n[COMPRA]: ${email} comprou por ${price}ep. um ${buyId}`, (err) => { //adiciona na db pros admins verem
-                    if (err) throw err;
-                });
-            res.redirect(`/success?email=${email}&code=${code}&message=Compra Efetuada!&page=home`)
-        }else{
-            res.redirect(`/error?code=${401}&message=${points},${price}`)
-        }
+    
+    const price = priceTable[buyId]
+    if (price == undefined) {
+        res.redirect(`/error?code=${401}&message=Id de compra inválido`)
+    }
+    if (points >= price) {
+            updateUser.run(points-price, user.username)
+            
+            console.log(`[ACTION] Purchase: ${username} bought for the price of ${price}ep. a(n) ${buyId}`)
+            fs.appendFile('tmp/compras.txt', `\n[COMPRA]: ${username} comprou por ${price}ep. um ${buyId}`, (err) => { //adiciona na db pros admins verem
+                if (err) throw err;
+            });
+            res.redirect(`/success?message=Compra Efetuada!&page=home`)
     }else{
-        res.redirect(`/error?code=${401}&message=Credenciais inválidas`)
+        res.redirect(`/error?code=${401}&message=Você tem ${points} e está tentando efetuar uma compra no valor de ${price}.`)
     }
 })
 
@@ -233,16 +232,25 @@ app.get("/check", (req, res) => { //NEEDS REFACTORING
     const points = user.points
     
     
-    const codes = getCodes.all()
-    const recievedCode = toString(req.query.code) //this is probably the issue here
+    const codes = getCodes.all() //this works
+    const recievedCode = parseInt(req.query.code) //this is the issue here
 
-    if (codes.includes(recievedCode)) { //CODE EXISTS
+    let codeExists = false
+
+    for (const code of codes) {
+        if (code.code === recievedCode) {
+            codeExists = true
+            break
+        }
+    }
+
+    if (codeExists) { //CODE EXISTS
 
         delCode.run(recievedCode)
 
-        updateUser.run(points+10, user)
+        updateUser.run(points+10, user.username)
 
-        res.redirect(`/home?code=${codeInt}&email=${email}`) //use codeInt here cuz it is referenced in home.ejs
+        res.redirect(`/home`) //use codeInt here cuz it is referenced in home.ejs
     }else{
         res.redirect(`/error?code=${401}&message=Código inexistente`)
     }

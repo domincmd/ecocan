@@ -91,7 +91,7 @@
     <script>
         function buyThis(element) {
             const elementId = element.parentElement.querySelector(".title-shop-item").textContent
-            window.location.href = "/buy?email=<%= email %>&code=<%= code %>&buyId="+elementId
+            window.location.href = "/buy?buyId="+elementId
         } 
     </script>
 </body>

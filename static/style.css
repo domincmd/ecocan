@@ -127,7 +127,7 @@ div .center {
     border-radius: 25px;
 }
 
-.container input[type="email"], .container input[type="password"] {
+.container input[type="text"], .container input[type="password"] {
     padding: 5px;
     margin: 5px 0px;
     border-radius: 7px;
